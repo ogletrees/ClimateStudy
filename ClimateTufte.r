@@ -4,12 +4,10 @@
 
 
 
-# Preprocessing & summarizing data
+# Packages
 library(dplyr)
 library(tidyr)
 library(lubridate)
-
-# Visualization development
 library(ggplot2)
 
 # Variables
