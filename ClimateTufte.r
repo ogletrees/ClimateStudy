@@ -4,12 +4,11 @@
 
 
 
-# Preprocessing & summarizing data
+
+# Packages
 library(dplyr)
 library(tidyr)
 library(lubridate)
-
-# Visualization development
 library(ggplot2)
 
 # Variables
@@ -51,7 +50,7 @@ DAY <-  DAY %>% mutate(Temp = replace(Temp, Temp< (-100), NA))
 DAY$newDay <- yday(DAY$Date)
 DAY <- DAY %>% select(-Date)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 # rename variables
 # names(DAY) <- c("Month", "Day", "Year", "Temp")
@@ -63,8 +62,8 @@ Past <- DAY %>%
   # arrange(Day) %>%
   # ungroup() %>%
   # group_by(Year) %>%
-  # arrange(Month, Day) %>% 
-  # mutate(newDay = seq(1, length(Day))) %>%   # label days as 1:365 (will represent x-axis)         
+  # arrange(Month, Day) %>%
+  # mutate(newDay = seq(1, length(Day))) %>%   # label days as 1:365 (will represent x-axis)
   # ungroup() %>%
   filter(Temp != -99 & Year != 2016) %>%     # filter out missing data (identified with '-99' value) & current year data
   group_by(newDay) %>%
@@ -87,7 +86,7 @@ Present <- DAY %>%
   # ungroup() %>%
   filter(Temp != -99 & Year == 2016)  # filter out missing data & select current year data
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 # create dataframe that represents the lowest temp for each day for the historical data
 PastLows <- Past %>%
@@ -112,7 +111,7 @@ PresentHighs <- Present %>%
   filter(record == "Y")  # filter for days that represent current year record highs
 
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 # function to turn y-axis labels into degree formatted values
 dgr_fmt <- function(x, ...) {
@@ -136,30 +135,30 @@ p <- ggplot(Past, aes(newDay, Temp)) +
         panel.border = element_blank(),
         panel.background = element_blank(),
         axis.ticks = element_blank(),
-        #axis.text = element_blank(),  
+        #axis.text = element_blank(),
         axis.title = element_blank()) +
   geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", alpha=.1)
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
-p <- p + 
+p <- p +
   geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4")
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
-p <- p + 
+p <- p +
   geom_line(Present, mapping=aes(x=newDay, y=Temp, group=1)) +
   geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=1)
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
-p <- p + 
+p <- p +
   geom_hline(yintercept = -20, colour = "white", linetype=1) +
   geom_hline(yintercept = -10, colour = "white", linetype=1) +
   geom_hline(yintercept = 0, colour = "white", linetype=1) +
@@ -176,9 +175,9 @@ p <- p +
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
-p <- p + 
+p <- p +
   geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=.5) +
   geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=.5) +
   geom_vline(xintercept = 90, colour = "wheat4", linetype=3, size=.5) +
@@ -190,16 +189,16 @@ p <- p +
   geom_vline(xintercept = 273, colour = "wheat4", linetype=3, size=.5) +
   geom_vline(xintercept = 304, colour = "wheat4", linetype=3, size=.5) +
   geom_vline(xintercept = 334, colour = "wheat4", linetype=3, size=.5) +
-  geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=.5) 
+  geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=.5)
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 p <- p +
   coord_cartesian(ylim = c(-20,100)) +
   scale_y_continuous(breaks = seq(-20,100, by=10), labels = a) +
-  scale_x_continuous(expand = c(0, 0), 
+  scale_x_continuous(expand = c(0, 0),
                      breaks = c(15,45,75,105,135,165,195,228,258,288,320,350),
                      labels = c("January", "February", "March", "April",
                                 "May", "June", "July", "August", "September",
@@ -207,7 +206,7 @@ p <- p +
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 p <- p +
   geom_point(data=PresentLows, aes(x=newDay, y=Temp), colour="blue3") +
@@ -215,7 +214,7 @@ p <- p +
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 p <- p +
   ggtitle(paste(placename, "'s Weather in 2016", sep = "")) +
@@ -224,21 +223,21 @@ p <- p +
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 # there might be better annotation now in ggplot2
 p <- p +
-  annotate("text", x = 66, y = 93, 
+  annotate("text", x = 66, y = 93,
            label = "Data represents average daily temperatures. Accessible data dates back to", size=3, colour="gray30") +
-  annotate("text", x = 62, y = 89, 
+  annotate("text", x = 62, y = 89,
            label = "January 1, 1930. Data for 2016 is through December 31.", size=3, colour="gray30") +
-  annotate("text", x = 64, y = 85, 
+  annotate("text", x = 64, y = 85,
            label = "Average temperature for the year was 51.9° making 2014 the 9th coldest", size=3, colour="gray30") +
   annotate("text", x = 18, y = 81, label = "year since 1995", size=3, colour="gray30")
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 # the exact placement of these elements will need some trial and error
 p <- p +
@@ -251,7 +250,7 @@ p <- p +
 
 print(p)
 #---------------------------------------------------------------
-# Step 
+# Step
 #---------------------------------------------------------------
 p <- p +
   annotate("segment", x = 181, xend = 181, y = 5, yend = 25, colour = "wheat2", size=3) +
@@ -266,4 +265,3 @@ p <- p +
   annotate("text", x = 193, y = 5, label = "RECORD LOW", size=2, colour="gray30")
 
 print(p)
-
