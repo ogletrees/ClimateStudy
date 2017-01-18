@@ -4,8 +4,14 @@
 
 
 
+<<<<<<< HEAD
 
 # Packages
+||||||| merged common ancestors
+# Preprocessing & summarizing data
+=======
+# Packages
+>>>>>>> origin/Variable-Work
 library(dplyr)
 library(tidyr)
 library(lubridate)
