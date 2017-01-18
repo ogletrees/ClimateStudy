@@ -1,13 +1,20 @@
-```r
+# 2017-01-17
+# Code by Scott Ogletree
+# Based on code from https://rpubs.com/bradleyboehmke/weather_graphic ,  Brad Boehmke January 2, 2015
+
+
+
 # Preprocessing & summarizing data
 library(dplyr)
 library(tidyr)
 library(lubridate)
 
-# Visualizatin development
+# Visualization development
 library(ggplot2)
 
 #### Fetch Data ####
+# This data can be obtained from weatherunderground too. For your area you will have to do some research.
+# Fetch each year into a data frame
 for (i in 1930:2016){
   urli <- paste("https://www.wunderground.com/history/airport/KCEU/", i, "/1/1/CustomHistory.html?dayend=31&monthend=12&yearend=", i, "&req_city=&req_state=&req_statename=&reqdb.zip=&reqdb.magic=&reqdb.wmo=&format=1", sep = "")
   name <- paste("Y", i, sep = "")
@@ -228,4 +235,4 @@ p <- p +
   annotate("text", x = 193, y = 5, label = "RECORD LOW", size=2, colour="gray30")
 
 print(p)
-```
+
