@@ -48,6 +48,8 @@ DAY <-  DAY %>% mutate(Temp = replace(Temp, Temp< (-100), NA))
 DAY$newDay <- yday(DAY$Date)
 DAY <- DAY %>% select(-Date)
 #---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 # rename variables
 # names(DAY) <- c("Month", "Day", "Year", "Temp")
 
@@ -82,6 +84,8 @@ Present <- DAY %>%
   # ungroup() %>%
   filter(Temp != -99 & Year == 2016)  # filter out missing data & select current year data
 #---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 # create dataframe that represents the lowest temp for each day for the historical data
 PastLows <- Past %>%
   group_by(newDay) %>%
@@ -104,6 +108,8 @@ PresentHighs <- Present %>%
   mutate(record = ifelse(Temp>Pasthigh, "Y", "N")) %>% # identifies if current year was record high
   filter(record == "Y")  # filter for days that represent current year record highs
 
+#---------------------------------------------------------------
+# Step 
 #---------------------------------------------------------------
 # function to turn y-axis labels into degree formatted values
 dgr_fmt <- function(x, ...) {
@@ -132,18 +138,24 @@ p <- ggplot(Past, aes(newDay, Temp)) +
   geom_linerange(Past, mapping=aes(x=newDay, ymin=lower, ymax=upper), colour = "wheat2", alpha=.1)
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p + 
   geom_linerange(Past, mapping=aes(x=newDay, ymin=avg_lower, ymax=avg_upper), colour = "wheat4")
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p + 
   geom_line(Present, mapping=aes(x=newDay, y=Temp, group=1)) +
   geom_vline(xintercept = 0, colour = "wheat4", linetype=1, size=1)
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p + 
   geom_hline(yintercept = -20, colour = "white", linetype=1) +
   geom_hline(yintercept = -10, colour = "white", linetype=1) +
@@ -160,7 +172,9 @@ p <- p +
   geom_hline(yintercept = 100, colour = "white", linetype=1)
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p + 
   geom_vline(xintercept = 31, colour = "wheat4", linetype=3, size=.5) +
   geom_vline(xintercept = 59, colour = "wheat4", linetype=3, size=.5) +
@@ -176,7 +190,9 @@ p <- p +
   geom_vline(xintercept = 365, colour = "wheat4", linetype=3, size=.5) 
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p +
   coord_cartesian(ylim = c(-20,100)) +
   scale_y_continuous(breaks = seq(-20,100, by=10), labels = a) +
@@ -187,20 +203,26 @@ p <- p +
                                 "October", "November", "December"))
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p +
   geom_point(data=PresentLows, aes(x=newDay, y=Temp), colour="blue3") +
   geom_point(data=PresentHighs, aes(x=newDay, y=Temp), colour="firebrick3")
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p +
   ggtitle("Clemson's Weather in 2016") +
   theme(plot.title=element_text(face="bold",hjust=.012,vjust=.8,colour="#3C3C3C",size=20)) +
   annotate("text", x = 19, y = 98, label = "Temperature", size=4, fontface="bold")
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p +
   annotate("text", x = 66, y = 93, 
            label = "Data represents average daily temperatures. Accessible data dates back to", size=3, colour="gray30") +
@@ -211,7 +233,9 @@ p <- p +
   annotate("text", x = 18, y = 81, label = "year since 1995", size=3, colour="gray30")
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p +
   annotate("segment", x = 30, xend = 40, y = -5, yend = -10, colour = "blue3") +
   annotate("text", x = 65, y = -10, label = "We had 35 days that were the", size=3, colour="blue3") +
@@ -221,7 +245,9 @@ p <- p +
   annotate("text", x = 324, y = 78, label = "hottest since 1995", size=3, colour="firebrick3")
 
 print(p)
-#--------------------------------------------------------
+#---------------------------------------------------------------
+# Step 
+#---------------------------------------------------------------
 p <- p +
   annotate("segment", x = 181, xend = 181, y = 5, yend = 25, colour = "wheat2", size=3) +
   annotate("segment", x = 181, xend = 181, y = 12, yend = 18, colour = "wheat4", size=3) +
