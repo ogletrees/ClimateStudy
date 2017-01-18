@@ -12,6 +12,9 @@ library(lubridate)
 # Visualization development
 library(ggplot2)
 
+# Variables
+placename <- "Clemson"
+
 #### Fetch Data ####
 # This data can be obtained from weatherunderground too. For your area you will have to do some research.
 # Fetch each year into a data frame
@@ -215,7 +218,7 @@ print(p)
 # Step 
 #---------------------------------------------------------------
 p <- p +
-  ggtitle("Clemson's Weather in 2016") +
+  ggtitle(paste(placename, "'s Weather in 2016", sep = "")) +
   theme(plot.title=element_text(face="bold",hjust=.012,vjust=.8,colour="#3C3C3C",size=20)) +
   annotate("text", x = 19, y = 98, label = "Temperature", size=4, fontface="bold")
 
@@ -223,6 +226,7 @@ print(p)
 #---------------------------------------------------------------
 # Step 
 #---------------------------------------------------------------
+# there might be better annotation now in ggplot2
 p <- p +
   annotate("text", x = 66, y = 93, 
            label = "Data represents average daily temperatures. Accessible data dates back to", size=3, colour="gray30") +
@@ -236,6 +240,7 @@ print(p)
 #---------------------------------------------------------------
 # Step 
 #---------------------------------------------------------------
+# the exact placement of these elements will need some trial and error
 p <- p +
   annotate("segment", x = 30, xend = 40, y = -5, yend = -10, colour = "blue3") +
   annotate("text", x = 65, y = -10, label = "We had 35 days that were the", size=3, colour="blue3") +
